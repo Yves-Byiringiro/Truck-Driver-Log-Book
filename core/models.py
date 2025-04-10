@@ -4,10 +4,9 @@ from .enums import DUTY_STATUSES
 
 
 class LogBook(models.Model):
-
     driver_number = models.CharField(max_length=7, db_index=True, blank=False)
     driver_initials = models.CharField(max_length=2, blank=False)
-    driver_signature = models.ImageField(blank=False)
+    driver_signature = models.ImageField(blank=False, null=True)
     co_driver_name = models.CharField(max_length=250, blank=True, null=True)
     home_operating_center_address = models.CharField(max_length=250)
     vehicle_number = models.CharField(max_length=5, blank=False)
@@ -22,15 +21,15 @@ class LogBook(models.Model):
     def __str__(self):
         return f"{self.driver_number} - {self.today_date}"
 
-class LogEntry(models.Model):
+class LogBookEntry(models.Model):
     logbook = models.ForeignKey(LogBook, on_delete=models.CASCADE, related_name="entries")
     duty_status = models.CharField(max_length=3, choices=DUTY_STATUSES)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField(null=True, blank=True) 
+    start_time = models.TimeField(blank=False, null=False)
+    end_time = models.TimeField(null=True, blank=True) 
     location = models.CharField(max_length=250)
     odometer_start = models.PositiveIntegerField()
     odometer_end = models.PositiveIntegerField(null=True, blank=True)
-    remarks = models.TextField(blank=True, null=True)
+    remarks = models.TextField(blank=False, null=False)
 
     def __str__(self):
         return f"{self.duty_status} - {self.start_time} ({self.logbook.driver_number})"
