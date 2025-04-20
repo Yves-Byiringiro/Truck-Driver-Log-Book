@@ -14,7 +14,9 @@ export default function MainContainer({children}) {
                 </div>
             </div>
             <div>
-            {children}
+            <div className="mt-10">
+                {children}
+            </div>
             </div>
         </section>
     </div>

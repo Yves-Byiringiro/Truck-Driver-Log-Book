@@ -1,15 +1,17 @@
-import MainContainer from "./containers/MainContainer"
+import { BrowserRouter as Router, Route, Routes } from "react-router"
+import Home from "./pages/Home"
+import PastLogs from "./pages/PastLogs"
 
 function App() {
-
   return (
-    <div>
-      <MainContainer>
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
-      </MainContainer>
-    </div>
+    <Router>
+      <main className="">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/past-logs" element={<PastLogs />} />
+        </Routes>
+      </main>
+    </Router>
   )
 }
 
