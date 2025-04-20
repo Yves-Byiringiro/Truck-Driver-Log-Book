@@ -6,6 +6,6 @@ import AuthenticatedContainer from './containers/AuthenticatedContainer.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthenticatedContainer />
+    <App />
   </StrictMode>,
 )

@@ -1,10 +1,14 @@
-
+import MainContainer from "./containers/MainContainer"
 
 function App() {
 
   return (
     <div>
-      <h1 className="text-3xl text-red-700 font-semibold">hi world</h1>
+      <MainContainer>
+        <h1 className="text-3xl font-bold underline">
+          Hello world!
+        </h1>
+      </MainContainer>
     </div>
   )
 }
