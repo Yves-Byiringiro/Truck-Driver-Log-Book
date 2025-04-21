@@ -12,11 +12,13 @@ export default function SideNav() {
             <div className="flex flex-col gap-2">
                 <NavLink
                     icon={<RxDashboard size={23} color="white" />}
-                    linkName="Home"
+                    linkName={"Home"}
+                    path={"/"}
                 />
                 <NavLink
                     icon={<RxLayers size={23} color="white" />}
-                    linkName="Past logs"
+                    linkName={"Past logs"}
+                    path={"/past-logs"}
                 />
             </div>
         </div>
