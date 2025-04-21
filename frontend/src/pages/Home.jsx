@@ -11,8 +11,23 @@ export default function Home() {
     const [formTitle, setFormTitle] = useState('New log book');
     const [pageInfo, setPageInfo] = useState('Are you ready to start your journey? Please fill in the form below.');
 
+    const [formState, setFormState] = useState({
+        driver_number: '',
+        driver_initials: '',
+        home_address: '',
+        vehicle_number: '',
+        show_each_unit: '',
+        other_trailers: '',
+        shipper: '',
+        commodity: '',
+        load_no: ''
+    });
+
     const handleSubmit = () => {
-        alert("Form submitted")
+        if (!formState.home_address) {
+            alert("home address missinh")
+            return;
+        }
         setAddNewDutyStatus(true)
     }
 
@@ -42,15 +57,87 @@ export default function Home() {
 
                 {(!addNewDutyStatus && !onGoingJourney) && <div className='mt-4'>
                     <div className='grid grid-cols-3 gap-4'>
-                        <Input label="Driver number" type="text" />
-                        <Input label="Driver initials" type="text" />
-                        <Input label="Home operating center address" type="text" />
-                        <Input label="Vehicle number" type="text" />
-                        <Input label="Show each unit" type="text" />
-                        <Input label="Other trailers" type="text" />
-                        <Input label="Shipper" type="text" />
-                        <Input label="Commodity" type="text" />
-                        <Input label="Load no" type="text" />
+                        <Input
+                            label="Driver number"
+                            type="text"
+                            value={formState.driver_number}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, driver_number: val }))
+                            }
+                            editable={false}
+                        />
+                        <Input
+                            label="Driver initials"
+                            type="text"
+                            value={formState.driver_initials}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, driver_initials: val }))
+                            }
+                            editable={false}
+                        />
+                        <Input
+                            label="Home operating center address"
+                            type="text"
+                            value={formState.home_address}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, home_address: val }))
+                            }
+                            editable={true}
+                        />
+                        <Input
+                            label="Vehicle number"
+                            type="text"
+                            value={formState.vehicle_number}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, vehicle_number: val }))
+                            }
+                            editable={true}
+                        />
+                        <Input
+                            label="Show each unit"
+                            type="text"
+                            value={formState.show_each_unit}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, show_each_unit: val }))
+                            }
+                            editable={true}
+                        />
+                        <Input
+                            label="Other trailers"
+                            type="text"
+                            value={formState.other_trailers}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, other_trailers: val }))
+                            }
+                            editable={true}
+                        />
+                        <Input
+                            label="Shipper"
+                            type="text"
+                            value={formState.shipper}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, shipper: val }))
+                            }
+                            editable={true}
+                        />
+                        <Input
+                            label="Commodity"
+                            type="text"
+                            value={formState.commodity}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, commodity: val }))
+                            }
+                            editable={true}
+                        />
+                        <Input
+                            label="Load no"
+                            type="text"
+                            value={formState.load_no}
+                            onChange={(val) =>
+                                setFormState((prev) => ({ ...prev, load_no: val }))
+                            }
+                            editable={true}
+                        />
                     </div>
                     <div className='mt-4'>
                         <PrimaryButton label={"Save"} onClick={handleSubmit} />
