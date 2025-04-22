@@ -26,7 +26,7 @@ export default function Home() {
     const [formState, setFormState] = useState({
         driver_number: '7Y-56-783',
         driver_initials: 'YB',
-        home_address: '',
+        home_operating_center_address: '',
         vehicle_number: '',
         co_driver_name: '',
         show_each_unit: '',
@@ -57,7 +57,7 @@ export default function Home() {
         const newErrors = {};
 
         if (formType == 'logbook') {
-            if (!formToValidate.home_address) newErrors.home_address = 'Home address is required';
+            if (!formToValidate.home_operating_center_address) newErrors.home_operating_center_address = 'Home address is required';
             if (!formToValidate.vehicle_number) newErrors.vehicle_number = 'Vehicle number is required';
             if (!formToValidate.show_each_unit) newErrors.show_each_unit = 'Show each unit is required';
             if (!formToValidate.other_trailers) newErrors.other_trailers = 'Other trailers is required';
@@ -81,8 +81,8 @@ export default function Home() {
         const isValid = validate(formState, 'logbook');
         if (!isValid) return;
 
-        dispatch(addLogBook({formState}))
-
+        const bodyReq = formState
+        dispatch(addLogBook(bodyReq))
         setAddNewDutyStatus(true)
     }
 
@@ -136,13 +136,13 @@ export default function Home() {
                         <Input
                             label="Home operating center address"
                             type="text"
-                            value={formState.home_address}
+                            value={formState.home_operating_center_address}
                             onChange={(val) => {
-                                setErrors((prev) => ({ ...prev, home_address: '' }));
-                                setFormState((prev) => ({ ...prev, home_address: val }))
+                                setErrors((prev) => ({ ...prev, home_operating_center_address: '' }));
+                                setFormState((prev) => ({ ...prev, home_operating_center_address: val }))
                                 }
                             }
-                            error={errors.home_address}
+                            error={errors.home_operating_center_address}
                             editable={true}
                         />
                         <Input

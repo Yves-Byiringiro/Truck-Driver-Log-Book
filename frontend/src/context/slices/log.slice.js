@@ -36,7 +36,11 @@ export const logSlice = createSlice({
     }
 });
 
-export const addLogBook = createAsyncThunk("log/addLogBook", async ({bodyReq}, thunkAPI) => {
+export const addLogBook = createAsyncThunk("log/addLogBook", async (bodyReq, thunkAPI) => {
+  console.log("-----------------------------------")
+  console.log(bodyReq)
+  console.log("-----------------------------------")
+
   try {
     const response = await reqInstance.post(`/log-book/`, { bodyReq }, {
         headers: {
