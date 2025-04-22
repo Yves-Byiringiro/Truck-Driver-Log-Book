@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import MainContainer from './../containers/MainContainer';
 import PageInfoSection from '../components/PageInfoSection';
 import Input from '../components/Input';
 import PrimaryButton from '../components/PrimaryButton';
 import SecondaryButton from '../components/SecondaryButton';
+import { addLogBook } from '../context/slices/log.slice';
+
+
 
 export default function Home() {
+    const dispatch = useDispatch();
+    const {
+        logBookAdded,
+        addLogBookSuccess,
+        addLogBookLoading,
+        addLogBookError
+    } = useSelector(state=>state.log);
+
     const [onGoingJourney, setOnGoingJourney] = useState(false);
     const [addNewDutyStatus, setAddNewDutyStatus] = useState(false);
     const [formTitle, setFormTitle] = useState('New log book');
@@ -69,7 +81,7 @@ export default function Home() {
         const isValid = validate(formState, 'logbook');
         if (!isValid) return;
 
-        console.log({formState})
+        dispatch(addLogBook({formState}))
 
         setAddNewDutyStatus(true)
     }
