@@ -37,12 +37,8 @@ export const logSlice = createSlice({
 });
 
 export const addLogBook = createAsyncThunk("log/addLogBook", async (bodyReq, thunkAPI) => {
-  console.log("-----------------------------------")
-  console.log(bodyReq)
-  console.log("-----------------------------------")
-
   try {
-    const response = await reqInstance.post(`/log-book/`, { bodyReq }, {
+    const response = await reqInstance.post(`/log-book/`, bodyReq, {
         headers: {
         //   'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
           'Content-Type': 'application/json'

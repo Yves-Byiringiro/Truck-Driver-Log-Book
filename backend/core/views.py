@@ -33,9 +33,6 @@ class LogBookView(APIView):
                 return Response(new_logbook_serialized, status=status.HTTP_201_CREATED)
             except:
                 return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        print("-------------------------------")
-        print(serializer.errors)
-        print("-------------------------------")
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 

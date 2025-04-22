@@ -24,7 +24,7 @@ export default function Home() {
     const [pageInfo, setPageInfo] = useState('Are you ready to start your journey? Please fill in the form below.');
 
     const [formState, setFormState] = useState({
-        driver_number: '7Y-56-783',
+        driver_number: 'U7Y-783',
         driver_initials: 'YB',
         home_operating_center_address: '',
         vehicle_number: '',
