@@ -16,7 +16,7 @@ class LogBookView(APIView):
             return Response({"error": "Logbook not found."}, status=status.HTTP_404_NOT_FOUND)
         except:
             return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
     def post(self, request):
         serializer = LogBookSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,15 +24,18 @@ class LogBookView(APIView):
                 today = date.today()
                 if LogBook.objects.filter(driver_number=serializer.data.get('driver_number'), today_date=today).exists():
                     return Response({"error": "A logbook for this driver already exists today."}, status=status.HTTP_400_BAD_REQUEST)
-                
+
                 if serializer.data.get('driver_number') == serializer.data.get('co_driver_name'):
                     return Response({"error": "Co-driver name can not be the same as driver number."}, status=status.HTTP_400_BAD_REQUEST)
-        
+
                 new_logbook = LogBook.objects.create(**serializer.validated_data)
                 new_logbook_serialized = LogBookSerializer(new_logbook).data
                 return Response(new_logbook_serialized, status=status.HTTP_201_CREATED)
             except:
                 return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        print("-------------------------------")
+        print(serializer.errors)
+        print("-------------------------------")
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -44,7 +47,7 @@ class LogBookEntryView(APIView):
                 logbook_id = serializer.data.get('logbook')
                 duty_status = serializer.data.get('duty_status')
                 start_time = serializer.data.get('start_time')
-                
+
                 logbook = LogBook.objects.get(id=logbook_id)
 
                 open_entry = logbook.entries.filter(end_time__isnull=True).first()
@@ -74,7 +77,7 @@ class LogBookEntryView(APIView):
                     "minutes": remaining_minutes
                 }
                 return Response(response_data, status=status.HTTP_201_CREATED)
-            
+
             except LogBook.DoesNotExist:
                 return Response({"error": "Logbook not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -85,7 +88,7 @@ class LogBookEntryView(APIView):
     def patch(self, request, id):
         try:
             logbook_entry = LogBookEntry.objects.get(id=id)
-            
+
             end_time = request.data.get("end_time")
             odometer_end = request.data.get("odometer_end")
 
@@ -108,13 +111,13 @@ class LogBookEntryView(APIView):
 
                 if logbook_entry.start_time and end_time and logbook_entry.start_time >= end_time:
                     return Response(
-                        {"error": "End time must be greater than start time."}, 
+                        {"error": "End time must be greater than start time."},
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
                 if logbook_entry.odometer_start and odometer_end and logbook_entry.odometer_start >= odometer_end:
                     return Response(
-                        {"error": "End odometer must be greater than start odometer."}, 
+                        {"error": "End odometer must be greater than start odometer."},
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
@@ -127,7 +130,7 @@ class LogBookEntryView(APIView):
             return Response({"error": "Logbook entry not found."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
     def get(self, request, logbook_id):
         try:
             logbook = LogBook.objects.get(id=logbook_id)

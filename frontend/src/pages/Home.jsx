@@ -16,11 +16,13 @@ export default function Home() {
         driver_initials: 'YB',
         home_address: '',
         vehicle_number: '',
+        co_driver_name: '',
         show_each_unit: '',
-        other_trailers: '',
+        other_trailers: [],
         shipper: '',
         commodity: '',
-        load_no: ''
+        load_no: '',
+        other_loads: []
     });
 
     const [dutyFormState, setDutyFormState] = useState({
@@ -144,6 +146,17 @@ export default function Home() {
                             editable={true}
                         />
                         <Input
+                            label="Co driver name"
+                            type="text"
+                            value={formState.co_driver_name}
+                            onChange={(val) => {
+                                setFormState((prev) => ({ ...prev, co_driver_name: val }))
+                                }
+                            }
+                            editable={true}
+                        />
+
+                        <Input
                             label="Show each unit"
                             type="text"
                             value={formState.show_each_unit}
@@ -201,6 +214,16 @@ export default function Home() {
                                 }
                             }
                             error={errors.load_no}
+                            editable={true}
+                        />
+                        <Input
+                            label="Other loads"
+                            type="text"
+                            value={formState.other_loads}
+                            onChange={(val) => {
+                                setFormState((prev) => ({ ...prev, other_loads: val }))
+                                }
+                            }
                             editable={true}
                         />
                     </div>
