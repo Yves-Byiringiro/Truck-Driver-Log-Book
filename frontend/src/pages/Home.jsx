@@ -99,9 +99,8 @@ export default function Home() {
             <PageInfoSection msg={pageInfo} />
             <div className='bg-white shadow-md rounded-lg p-6'>
                 <h1 className='text-lg font-semibold'>{formTitle}</h1>
-
                 {(!addNewDutyStatus && !onGoingJourney) && <div className='mt-4'>
-                    <div className='grid grid-cols-3 gap-4'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                         <Input
                             label="Driver number"
                             type="text"
@@ -211,7 +210,7 @@ export default function Home() {
                 </div>
                 }
                 {(addNewDutyStatus && ! onGoingJourney) && <div className='mt-4'>
-                    <div className='grid grid-cols-3 gap-4'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                         <Input
                             label="Log book"
                             type="text"
