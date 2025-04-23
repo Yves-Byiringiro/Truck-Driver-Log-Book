@@ -31,10 +31,12 @@ export default function Home() {
         co_driver_name: '',
         show_each_unit: '',
         other_trailers: [],
+        other_trailers_input: '',
         shipper: '',
         commodity: '',
         load_no: '',
-        other_loads: []
+        other_loads: [],
+        other_loads_input: ''
     });
 
     const [dutyFormState, setDutyFormState] = useState({
@@ -83,7 +85,6 @@ export default function Home() {
 
         const bodyReq = formState
         dispatch(addLogBook(bodyReq))
-        setAddNewDutyStatus(true)
     }
 
     const handleAddNewDuty = () => {
@@ -106,6 +107,13 @@ export default function Home() {
         setFormTitle('')
         setPageInfo('Visualize your journey, and add new duty')
     }, [onGoingJourney])
+
+
+    useEffect(()=> {
+        if (addLogBookSuccess) {
+            setAddNewDutyStatus(true)
+        }
+    }, [addLogBookSuccess])
   return (
     <div>
       <MainContainer>
@@ -183,14 +191,22 @@ export default function Home() {
                         <Input
                             label="Other trailers"
                             type="text"
-                            value={formState.other_trailers}
+                            value={formState.other_trailers_input}
                             onChange={(val) => {
-                                setFormState((prev) => ({ ...prev, other_trailers: val }))
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    other_trailers_input: val,
+                                    other_trailers: val
+                                        .split(',')
+                                        .map((item) => item.trim())
+                                        .filter((item) => item.length > 0)
+                                }))
                                 setErrors((prev) => ({ ...prev, other_trailers: '' }));
                                 }
                             }
                             error={errors.other_trailers}
                             editable={true}
+                            caption={"More than 2 trailers are separatd with comma eg: trailer1, trailer2"}
                         />
                         <Input
                             label="Shipper"
@@ -231,12 +247,20 @@ export default function Home() {
                         <Input
                             label="Other loads"
                             type="text"
-                            value={formState.other_loads}
+                            value={formState.other_loads_input}
                             onChange={(val) => {
-                                setFormState((prev) => ({ ...prev, other_loads: val }))
+                                setFormState((prev) => ({
+                                    ...prev, other_loads_input: val,
+                                    other_loads: val
+                                        .split(',')
+                                        .map((item) => item.trim())
+                                        .filter((item) => item.length > 0)
+                                }))
                                 }
                             }
                             editable={true}
+                            caption={"More than two loads are separated with commas, e.g., load1, load2"}
+
                         />
                     </div>
                     <div className='mt-4'>

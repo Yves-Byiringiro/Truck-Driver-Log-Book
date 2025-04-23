@@ -1,6 +1,6 @@
 
 
-export default function Input({label, type, value, onChange, editable, error, options}) {
+export default function Input({label, type, value, onChange, editable, error, options, caption}) {
   return (
     <div className='flex flex-col gap-2'>
         <label htmlFor="startDate" className='text-sm font-light'>{label}</label>
@@ -27,7 +27,7 @@ export default function Input({label, type, value, onChange, editable, error, op
             readOnly={!editable}
             className='border border-gray-300 rounded-md p-2 focus:outline-none'
         />)}
-      {error && <div className="text-xs text-red-500">{error}</div>}
+      {error ? <div className="text-xs text-red-500">{error}</div>: <div className="text-xs text-gray-800">{caption}</div>}
     </div>
   )
 }
