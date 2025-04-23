@@ -50,6 +50,19 @@ export const addLogBook = createAsyncThunk("log/addLogBook", async (bodyReq, thu
   }
 });
 
+export const addLogBookEntry = createAsyncThunk("log/addLogBookEntry", async (bodyReq, thunkAPI) => {
+  try {
+    const response = await reqInstance.post(`/log-entry/`, bodyReq, {
+        headers: {
+        //   'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.message);
+  }
+});
 
 export const { } = logSlice.actions;
 

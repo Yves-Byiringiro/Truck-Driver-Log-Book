@@ -40,7 +40,7 @@ export default function Home() {
     });
 
     const [dutyFormState, setDutyFormState] = useState({
-        log_book: 1,
+        log_book: logBookAdded?.id,
         duty_status: '',
         start_time: '',
         location: '',
@@ -122,6 +122,8 @@ export default function Home() {
             <div className='bg-white shadow-md rounded-lg p-6'>
                 <h1 className='text-lg font-semibold'>{formTitle}</h1>
                 {(!addNewDutyStatus && !onGoingJourney) && <div className='mt-4'>
+                    {addLogBookLoading && <div>{addLogBookLoading}</div>}
+                    {addLogBookError && <div>{addLogBookError}</div>}
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                         <Input
                             label="Driver number"
