@@ -47,7 +47,7 @@ class LogBookEntryView(APIView):
 
                 logbook = LogBook.objects.get(id=logbook_id)
 
-                open_entry = logbook.entries.filter(end_time__isnull=True).first()
+                open_entry = logbook.log_entries.filter(end_time__isnull=True).first()
                 if open_entry:
                     return Response({"error": "Previous log book entry must have an end time before creating a new one."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -78,7 +78,7 @@ class LogBookEntryView(APIView):
             except LogBook.DoesNotExist:
                 return Response({"error": "Logbook not found."}, status=status.HTTP_404_NOT_FOUND)
 
-            except Exception as e:
+            except:
                 return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 

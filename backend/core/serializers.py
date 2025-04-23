@@ -12,7 +12,7 @@ class LogBookSerializer(serializers.ModelSerializer):
         model = LogBook
         fields = "__all__"
 
-class LogBookEntrySerializer(serializers.ModelSerializer):
+class LogBookEntriesSerializer(serializers.ModelSerializer):
     log_entries = LogBookEntrySerializer(many=True, read_only=True)
     class Meta:
         model = LogBook
