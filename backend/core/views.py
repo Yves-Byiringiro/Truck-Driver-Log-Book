@@ -41,7 +41,7 @@ class LogBookEntryView(APIView):
         serializer = LogBookEntrySerializer(data=request.data)
         if serializer.is_valid():
             try:
-                logbook_id = serializer.data.get('logbook')
+                logbook_id = serializer.data.get('log_book')
                 duty_status = serializer.data.get('duty_status')
                 start_time = serializer.data.get('start_time')
 
@@ -60,7 +60,7 @@ class LogBookEntryView(APIView):
                 remaining_minutes = (remaining_time.seconds % 3600) // 60
 
                 new_logbook_entry = LogBookEntry.objects.create(
-                    logbook=logbook,
+                    log_book=logbook,
                     duty_status=duty_status,
                     start_time=start_time,
                     location=serializer.data.get('location'),
@@ -78,7 +78,9 @@ class LogBookEntryView(APIView):
             except LogBook.DoesNotExist:
                 return Response({"error": "Logbook not found."}, status=status.HTTP_404_NOT_FOUND)
 
-            except:
+            except Exception as e:
+                print("**************************************************")
+                print(e)
                 return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 

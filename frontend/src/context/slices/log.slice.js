@@ -5,34 +5,55 @@ import reqInstance from "../api";
 export const logSlice = createSlice({
     name: "log",
     initialState: {
-        logBookAdded: {},
-        addLogBookSuccess: false,
-        addLogBookLoading: false,
-        addLogBookError: null,
+      logBookAdded: {},
+      addLogBookSuccess: false,
+      addLogBookLoading: false,
+      addLogBookError: null,
+
+      addLogBookEntrySuccess: false,
+      addLogBookEntryLoading: false,
+      addLogBookEntryError: null,
     },
     reducers: {
 
     },
     extraReducers: (builder) => {
-        // add log book
-        builder.addCase(addLogBook.pending, (state) => {
-          state.addLogBookLoading = true;
-          state.addLogBookError = null;
-          state.addLogBookSuccess = false;
-          state.logBookAdded = {};
-        });
-        builder.addCase(addLogBook.fulfilled, (state, action) => {
-          state.addLogBookLoading = false;
-          state.addLogBookError = null;
-          state.addLogBookSuccess = true;
-          state.logBookAdded = action.payload;
-        });
-        builder.addCase(addLogBook.rejected, (state, action) => {
-          state.addLogBookLoading = false;
-          state.addLogBookError = action.payload;
-          state.addLogBookSuccess = false;
-          state.logBookAdded = {};
-        })
+      // add log book
+      builder.addCase(addLogBook.pending, (state) => {
+        state.addLogBookLoading = true;
+        state.addLogBookError = null;
+        state.addLogBookSuccess = false;
+        state.logBookAdded = {};
+      });
+      builder.addCase(addLogBook.fulfilled, (state, action) => {
+        state.addLogBookLoading = false;
+        state.addLogBookError = null;
+        state.addLogBookSuccess = true;
+        state.logBookAdded = action.payload;
+      });
+      builder.addCase(addLogBook.rejected, (state, action) => {
+        state.addLogBookLoading = false;
+        state.addLogBookError = action.payload;
+        state.addLogBookSuccess = false;
+        state.logBookAdded = {};
+      }),
+      // add log book duty
+      builder.addCase(addLogBookEntry.pending, (state) => {
+        state.addLogBookEntryLoading = true;
+        state.addLogBookEntryError = null;
+        state.addLogBookEntrySuccess = false;
+      });
+      builder.addCase(addLogBookEntry.fulfilled, (state) => {
+        state.addLogBookEntryLoading = false;
+        state.addLogBookEntryError = null;
+        state.addLogBookEntrySuccess = true;
+      });
+      builder.addCase(addLogBookEntry.rejected, (state, action) => {
+        state.addLogBookEntryLoading = false;
+        state.addLogBookEntryError = action.payload;
+        state.addLogBookEntrySuccess = false;
+      })
+
     }
 });
 

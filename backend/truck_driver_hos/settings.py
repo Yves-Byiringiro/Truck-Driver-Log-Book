@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-%17ycx6penm7gmgxb0%81=4om#z^4+#_b4%3)n_+6d)n@6wxy^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -70,12 +70,12 @@ WSGI_APPLICATION = 'truck_driver_hos.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv("DB_NAME"),
         'USER': os.getenv("DB_USER"),
-        'PASSWORD': "TrDLoB03!25",
-        'HOST': "localhost",
-        'PORT': os.getenv("DB_PORT"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': '',
     }
 }
 
@@ -118,8 +118,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

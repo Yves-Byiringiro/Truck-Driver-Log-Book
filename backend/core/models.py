@@ -21,7 +21,7 @@ class LogBook(models.Model):
         return f"{self.driver_number} - {self.today_date}"
 
 class LogBookEntry(models.Model):
-    logbook = models.ForeignKey(LogBook, on_delete=models.CASCADE, related_name="log_entries")
+    log_book = models.ForeignKey(LogBook, on_delete=models.CASCADE, related_name="log_entries")
     duty_status = models.CharField(max_length=3, choices=DUTY_STATUSES)
     start_time = models.TimeField(blank=False, null=False)
     end_time = models.TimeField(null=True, blank=True)

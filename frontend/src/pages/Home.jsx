@@ -5,7 +5,7 @@ import PageInfoSection from '../components/PageInfoSection';
 import Input from '../components/Input';
 import PrimaryButton from '../components/PrimaryButton';
 import SecondaryButton from '../components/SecondaryButton';
-import { addLogBook } from '../context/slices/log.slice';
+import { addLogBook, addLogBookEntry } from '../context/slices/log.slice';
 
 
 
@@ -15,7 +15,11 @@ export default function Home() {
         logBookAdded,
         addLogBookSuccess,
         addLogBookLoading,
-        addLogBookError
+        addLogBookError,
+
+        addLogBookEntryLoading,
+        addLogBookEntryError,
+        addLogBookEntrySuccess
     } = useSelector(state=>state.log);
 
     const [onGoingJourney, setOnGoingJourney] = useState(false);
@@ -40,7 +44,7 @@ export default function Home() {
     });
 
     const [dutyFormState, setDutyFormState] = useState({
-        log_book: logBookAdded?.id,
+        log_book: '',
         duty_status: '',
         start_time: '',
         location: '',
@@ -92,8 +96,8 @@ export default function Home() {
         if (!isValid) return;
 
         console.log({dutyFormState})
-
-        setOnGoingJourney(true)
+        const bodyReq = dutyFormState
+        dispatch(addLogBookEntry(bodyReq))
     }
 
     useEffect(()=> {
@@ -113,7 +117,19 @@ export default function Home() {
         if (addLogBookSuccess) {
             setAddNewDutyStatus(true)
         }
-    }, [addLogBookSuccess])
+        setDutyFormState((prev) => ({
+            ...prev, log_book: logBookAdded?.id
+        }))
+
+    }, [addLogBookSuccess, logBookAdded])
+
+    useEffect(()=> {
+        if (addLogBookEntrySuccess) {
+            setOnGoingJourney(true)
+        }
+    }, [addLogBookEntrySuccess])
+
+
   return (
     <div>
       <MainContainer>
@@ -271,6 +287,8 @@ export default function Home() {
                 </div>
                 }
                 {(addNewDutyStatus && ! onGoingJourney) && <div className='mt-4'>
+                    {addLogBookEntryLoading && <div>{addLogBookEntryLoading}</div>}
+                    {addLogBookEntryError && <div>{addLogBookEntryError}</div>}
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                         <Input
                             label="Log book"
