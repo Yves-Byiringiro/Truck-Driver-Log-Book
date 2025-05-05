@@ -10,9 +10,9 @@ import { register } from '../context/slices/auth.slice';
 export default function Register() {
     const dispatch = useDispatch();
     const {
-        registerSuccess,
-        registerLoading,
-        registerError
+      registerSuccess,
+      registerLoading,
+      registerError
     } = useSelector(state=> state.auth)
 
     const [formState, setFormState] = useState({
@@ -30,8 +30,6 @@ export default function Register() {
         const bodyReq = formState
         dispatch(register(bodyReq))
     }
-
-
 
   return (
     <div className='py-20 flex justify-center pt-40'>
@@ -80,8 +78,8 @@ export default function Register() {
         <div className='mt-4'>
             <p className='text-base'>Not a new user?</p>
             <NavLink
-                to={'/register'}
-                className='font-semibold text-[#377DF6]'
+                to={'/'}
+                className='font-semibold text-[#377DF6] hover:underline'
             >
                 Login with your account
             </NavLink>

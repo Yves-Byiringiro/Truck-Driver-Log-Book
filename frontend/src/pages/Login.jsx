@@ -70,7 +70,7 @@ export default function Login() {
             <p className='text-base'>Don't have an account?</p>
             <NavLink
                 to={'/register'}
-                className='font-semibold text-[#377DF6]'
+                className='font-semibold text-[#377DF6] hover:underline'
             >
                 Register now
             </NavLink>
