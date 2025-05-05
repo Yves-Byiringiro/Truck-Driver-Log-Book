@@ -44,6 +44,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'authentication.User'
+
 ROOT_URLCONF = 'truck_driver_hos.urls'
 
 TEMPLATES = [
