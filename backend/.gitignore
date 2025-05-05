@@ -176,5 +176,4 @@ media/
 __pycache__/
 
 Pipfile
-backend/core/migrations/
-backend/authentication/migrations/
+migrations/
