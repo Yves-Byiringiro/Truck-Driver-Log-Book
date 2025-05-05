@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-%17ycx6penm7gmgxb0%81=4om#z^4+#_b4%3)n_+6d)n@6wxy^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = os.getenv("TD_ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -71,13 +71,14 @@ WSGI_APPLICATION = 'truck_driver_hos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'truckdriverhos_db',
-        'USER': 'driver',
-        'PASSWORD': 'TrDLoB03!25',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': os.getenv('TD_DB_NAME'),
+        'USER': os.getenv('TD_DB_USER'),
+        'PASSWORD': os.getenv('TD_DB_PASSWORD'),
+        'HOST': os.getenv('TD_DB_HOST'),
+        'PORT': os.getenv('TD_DB_PORT'),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
