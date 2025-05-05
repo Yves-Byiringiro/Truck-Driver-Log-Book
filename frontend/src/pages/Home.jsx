@@ -5,6 +5,7 @@ import PageInfoSection from '../components/PageInfoSection';
 import Input from '../components/Input';
 import PrimaryButton from '../components/PrimaryButton';
 import SecondaryButton from '../components/SecondaryButton';
+import { validate } from '../utils/funcs';
 import { addLogBook, addLogBookEntry } from '../context/slices/log.slice';
 
 
@@ -59,32 +60,9 @@ export default function Home() {
     ]
     const [errors, setErrors] = useState({});
 
-    const validate = (formToValidate, formType) => {
-        const newErrors = {};
-
-        if (formType == 'logbook') {
-            if (!formToValidate.home_operating_center_address) newErrors.home_operating_center_address = 'Home address is required';
-            if (!formToValidate.vehicle_number) newErrors.vehicle_number = 'Vehicle number is required';
-            if (!formToValidate.show_each_unit) newErrors.show_each_unit = 'Show each unit is required';
-            if (!formToValidate.other_trailers) newErrors.other_trailers = 'Other trailers is required';
-            if (!formToValidate.shipper) newErrors.shipper = 'Shipper name is required';
-            if (!formToValidate.commodity) newErrors.commodity = 'Commodity name is required';
-            if (!formToValidate.load_no) newErrors.load_no = 'Load no is required';
-        }
-
-        if (formType == 'duty') {
-            if (!formToValidate.duty_status) newErrors.duty_status = 'Duty status is required';
-            if (!formToValidate.start_time) newErrors.start_time = 'Start time is required';
-            if (!formToValidate.location) newErrors.location = 'Location is required';
-            if (!formToValidate.odometer_start) newErrors.odometer_start = 'Odometer start is required';
-            if (!formToValidate.remarks) newErrors.remarks = 'Remark is required';
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-      };
 
     const handleSubmit = () => {
-        const isValid = validate(formState, 'logbook');
+        const isValid = validate(formState, 'logbook', setErrors);
         if (!isValid) return;
 
         const bodyReq = formState
@@ -92,7 +70,7 @@ export default function Home() {
     }
 
     const handleAddNewDuty = () => {
-        const isValid = validate(dutyFormState, 'duty');
+        const isValid = validate(dutyFormState, 'duty', setErrors);
         if (!isValid) return;
 
         console.log({dutyFormState})

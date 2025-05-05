@@ -85,7 +85,6 @@ export const addLogBookEntry = createAsyncThunk("log/addLogBookEntry", async (bo
   }
 });
 
-export const { } = logSlice.actions;
 
 
 
