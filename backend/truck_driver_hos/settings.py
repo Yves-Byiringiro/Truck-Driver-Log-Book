@@ -16,6 +16,7 @@ DEBUG = True
 ALLOWED_HOSTS = os.getenv("TD_ALLOWED_HOSTS", "").split(",")
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -31,6 +32,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [

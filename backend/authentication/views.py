@@ -1,7 +1,40 @@
-from django.shortcuts import render
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from django.contrib.auth import authenticate, update_session_auth_hash
+from .serializers import LoginSerializer, UserInfoSerializer
+from .utils import get_tokens_for_user
+
+
+
+class LoginView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        try:
+            if serializer.is_valid():
+                username = serializer.data.get('username')
+                password = serializer.data.get('password')
+
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    user_info = UserInfoSerializer(user)
+                    tokens = get_tokens_for_user(user)
+
+                    return Response({
+                        "tokens":tokens,
+                        "user": user_info.data,
+                    }, status=status.HTTP_200_OK)
+                else:
+                    return Response({"error": "Oops! Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
+            else:
+                return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class RegisterView:
-    pass
-
-class LoginView:
     pass
