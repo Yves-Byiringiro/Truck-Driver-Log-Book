@@ -1,3 +1,5 @@
+#Define paths
+
 from django.urls import path
 from .views import LogBookView, LogBookEntryView
 

@@ -1,3 +1,4 @@
+# Define DUTY STATUSES
 
 DUTY_STATUSES = [
     ("OFF", "Off Duty"),

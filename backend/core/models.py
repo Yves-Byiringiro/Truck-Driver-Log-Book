@@ -1,3 +1,5 @@
+# Define Models
+
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from authentication.models import User
