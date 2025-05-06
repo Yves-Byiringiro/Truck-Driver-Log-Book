@@ -10,7 +10,7 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
     """Manager for users."""
 
-    def create_user(self, email, username, password=None, **extra_fields):
+    def create(self, email, username, password=None, **extra_fields):
         """Create, save and return a new users."""
         if not email:
             raise ValueError('User must have an email address.')
@@ -39,7 +39,7 @@ class UserManager(BaseUserManager):
             'driver_number': 'ADMIN01',
             'driver_initials': 'AD'
         }
-        return self.create_user(email, username, password, **extra_fields)
+        return self.create(email, username, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
