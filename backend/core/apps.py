@@ -1,3 +1,4 @@
+#Entrypoint
 from django.apps import AppConfig
 
 
