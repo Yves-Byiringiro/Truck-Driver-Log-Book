@@ -2,11 +2,14 @@ from datetime import datetime, date, time
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from .models import LogBook, LogBookEntry
 from .serializers import LogBookSerializer, LogBookEntrySerializer
 
 
 class LogBookView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, id):
         try:
             logbook = LogBook.objects.get(id=id)
@@ -22,13 +25,22 @@ class LogBookView(APIView):
         if serializer.is_valid():
             try:
                 today = date.today()
-                if LogBook.objects.filter(driver_number=serializer.data.get('driver_number'), today_date=today).exists():
+                user = request.user
+                driver_number = user.driver_number
+                driver_initials = user.driver_initials
+
+                if LogBook.objects.filter(driver_number=driver_number, today_date=today).exists():
                     return Response({"error": "A logbook for this driver already exists today."}, status=status.HTTP_400_BAD_REQUEST)
 
-                if serializer.data.get('driver_number') == serializer.data.get('co_driver_name'):
+                if driver_number == serializer.data.get('co_driver_name'):
                     return Response({"error": "Co-driver name can not be the same as driver number."}, status=status.HTTP_400_BAD_REQUEST)
 
-                new_logbook = LogBook.objects.create(**serializer.validated_data)
+                new_logbook = LogBook.objects.create(
+                    user=request.user,
+                    driver_number=driver_number,
+                    driver_initials=driver_initials,
+                    **serializer.validated_data
+                )
                 new_logbook_serialized = LogBookSerializer(new_logbook).data
                 return Response(new_logbook_serialized, status=status.HTTP_201_CREATED)
             except:
@@ -36,7 +48,36 @@ class LogBookView(APIView):
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class LogBookEntryView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request):
         serializer = LogBookEntrySerializer(data=request.data)
         if serializer.is_valid():
@@ -79,8 +120,6 @@ class LogBookEntryView(APIView):
                 return Response({"error": "Logbook not found."}, status=status.HTTP_404_NOT_FOUND)
 
             except Exception as e:
-                print("**************************************************")
-                print(e)
                 return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
