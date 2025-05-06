@@ -46,7 +46,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-AUTH_USER_MODEL = 'authentication.User'
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
@@ -59,6 +58,7 @@ REST_FRAMEWORK = {
 }
 
 ROOT_URLCONF = 'truck_driver_hos.urls'
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 TEMPLATES = [
     {

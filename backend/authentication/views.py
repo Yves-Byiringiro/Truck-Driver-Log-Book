@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
 from .serializers import LoginSerializer, UserInfoSerializer, RegisterSerializer
 from .utils import get_tokens_for_user
-from .models import User
+from .models import CustomUser
 
 
 class LoginView(APIView):
@@ -47,8 +47,8 @@ class RegisterView(APIView):
                 email = serializer.validated_data.get('email')
                 password = serializer.validated_data.get('password')
 
-                username_exists = User.objects.filter(username=username).exists()
-                email_exists = User.objects.filter(email=email).exists()
+                username_exists = CustomUser.objects.filter(username=username).exists()
+                email_exists = CustomUser.objects.filter(email=email).exists()
 
                 if username_exists:
                     return Response({"error": "User with this username already registered"}, status=status.HTTP_409_CONFLICT)
@@ -56,7 +56,7 @@ class RegisterView(APIView):
                 if email_exists:
                     return Response({"error": "User with this email already registered"}, status=status.HTTP_409_CONFLICT)
 
-                user = User.objects.create(username=username, email=email, password=password)
+                user = CustomUser.objects.create(username=username, email=email, password=password)
                 serialized_user = UserInfoSerializer(user).data
 
                 tokens = get_tokens_for_user(user)

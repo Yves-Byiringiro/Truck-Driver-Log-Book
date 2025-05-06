@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import CustomUser
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -7,7 +7,7 @@ class LoginSerializer(serializers.Serializer):
 
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['id', 'username', 'email', 'driver_number', 'driver_initials']
 
 class RegisterSerializer(serializers.Serializer):

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import CustomUser
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
@@ -8,7 +8,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 class UserAdmin(BaseUserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    model = User
+    model = CustomUser
 
     add_fieldsets = (
         (None, {
@@ -28,4 +28,4 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('username', 'email', 'driver_number', 'driver_initials', )
     ordering = ('username', 'email')
 
-admin.site.register(User, UserAdmin)
+admin.site.register(CustomUser, UserAdmin)
