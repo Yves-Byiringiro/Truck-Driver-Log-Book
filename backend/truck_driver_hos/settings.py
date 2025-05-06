@@ -60,6 +60,7 @@ REST_FRAMEWORK = {
 ROOT_URLCONF = 'truck_driver_hos.urls'
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

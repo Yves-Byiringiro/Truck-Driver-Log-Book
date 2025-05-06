@@ -2,9 +2,8 @@
 
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-from authentication.models import CustomUser
 from .enums import DUTY_STATUSES
-
+from django.conf import settings
 
 class LogBook(models.Model):
     driver_number = models.CharField(max_length=7, db_index=True, blank=False)
@@ -19,7 +18,7 @@ class LogBook(models.Model):
     load_no = models.CharField(max_length=12, blank=False)
     other_loads = ArrayField(models.CharField(max_length=50), blank=True, default=list)
     today_date = models.DateField(auto_now_add=True)
-    user =  models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user =  models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.driver_number} - {self.today_date}"

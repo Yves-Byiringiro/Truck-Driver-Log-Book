@@ -1,13 +1,10 @@
 from django.db import models
 from .utils import generate_driver_number, get_driver_initials
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin
-)
+from django.contrib.auth.models import (AbstractUser, BaseUserManager)
 
 
-class UserManager(BaseUserManager):
+
+class CustomUserManager(BaseUserManager):
     """Manager for users."""
 
     def create(self, email, username, password=None, **extra_fields):
@@ -42,7 +39,7 @@ class UserManager(BaseUserManager):
         return self.create(email, username, password, **extra_fields)
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractUser):
     """user in the system"""
     email = models.EmailField(max_length=50, unique=True)
     username = models.CharField(max_length=50, unique=True)
@@ -51,6 +48,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserManager()
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
+    objects = CustomUserManager()
+
