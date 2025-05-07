@@ -3,7 +3,7 @@ WSGI config for truck_driver_hos project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
-For more information on this file, see
+For more information on this file, see the link below
 https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 """
 

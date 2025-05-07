@@ -80,7 +80,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'truck_driver_hos.wsgi.application'
 
 
-# Database
+# Database Config
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
