@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
+import { ClipLoader } from 'react-spinners';
+import { useNavigate } from 'react-router-dom';
 import Input from '../components/Input';
 import TertiaryButton from '../components/TertiaryButton';
 import { validate } from '../utils/funcs';
@@ -9,8 +11,8 @@ import { login } from '../context/slices/auth.slice';
 
 export default function Login() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {
-        user,
         loginSuccess,
         loginLoading,
         loginError
@@ -31,7 +33,11 @@ export default function Login() {
         dispatch(login(bodyReq))
     }
 
-
+    useEffect(()=> {
+        if (loginSuccess) {
+            navigate('/home')
+        }
+    }, [loginSuccess])
 
   return (
     <div className='py-20 flex justify-center pt-40'>
@@ -66,6 +72,12 @@ export default function Login() {
         <div className='mt-8'>
             <TertiaryButton label={"Login"} onClick={handleLogin} />
         </div>
+        {loginError &&<div className='my-2'>
+            <p className='text-red-500 text-base'>{loginError}</p>
+        </div>}
+        {loginLoading &&<div className='my-2'>
+            <ClipLoader color="#36d7b7" size={25} loading={loginLoading} />
+        </div>}
         <div className='mt-4'>
             <p className='text-base'>Don't have an account?</p>
             <NavLink

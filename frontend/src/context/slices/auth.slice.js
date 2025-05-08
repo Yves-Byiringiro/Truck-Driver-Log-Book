@@ -32,6 +32,7 @@ export const authSlice = createSlice({
         state.user = action.payload;
       });
       builder.addCase(login.rejected, (state, action) => {
+        console.log("******************************", action.payload)
         state.loginLoading = false;
         state.loginError = action.payload;
         state.loginSuccess = false;
@@ -61,14 +62,14 @@ export const authSlice = createSlice({
 
 export const login = createAsyncThunk("auth/login", async (bodyReq, thunkAPI) => {
   try {
-    const response = await reqInstance.post(`/auth-login/`, bodyReq, {
+    const response = await reqInstance.post(`/auth/login/`, bodyReq, {
         headers: {
           'Content-Type': 'application/json'
         }
     });
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.message);
+    return thunkAPI.rejectWithValue(error.response.data.error);
   }
 });
 
@@ -81,7 +82,7 @@ export const register = createAsyncThunk("auth/register", async (bodyReq, thunkA
     });
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.message);
+    return thunkAPI.rejectWithValue(error.response);
   }
 });
 
