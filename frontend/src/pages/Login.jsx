@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
-import { ClipLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 import Input from '../components/Input';
 import TertiaryButton from '../components/TertiaryButton';
 import { validate } from '../utils/funcs';

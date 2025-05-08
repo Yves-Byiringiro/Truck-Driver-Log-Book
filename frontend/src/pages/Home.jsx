@@ -12,6 +12,7 @@ import { addLogBook, addLogBookEntry } from '../context/slices/log.slice';
 
 export default function Home() {
     const dispatch = useDispatch();
+    const { user } = useSelector(state => state.auth);
     const {
         logBookAdded,
         addLogBookSuccess,
@@ -21,7 +22,7 @@ export default function Home() {
         addLogBookEntryLoading,
         addLogBookEntryError,
         addLogBookEntrySuccess
-    } = useSelector(state=>state.log);
+    } = useSelector(state => state.log);
 
     const [onGoingJourney, setOnGoingJourney] = useState(false);
     const [addNewDutyStatus, setAddNewDutyStatus] = useState(false);
@@ -29,8 +30,8 @@ export default function Home() {
     const [pageInfo, setPageInfo] = useState('Are you ready to start your journey? Please fill in the form below.');
 
     const [formState, setFormState] = useState({
-        driver_number: 'U7Y-783',
-        driver_initials: 'YB',
+        driver_number: user?.driver_number,
+        driver_initials: user?.driver_initials,
         home_operating_center_address: '',
         vehicle_number: '',
         co_driver_name: '',
@@ -59,7 +60,6 @@ export default function Home() {
         {key:'ON', value:'On Duty (Not Driving)'}
     ]
     const [errors, setErrors] = useState({});
-
 
     const handleSubmit = () => {
         const isValid = validate(formState, 'logbook', setErrors);
@@ -107,6 +107,7 @@ export default function Home() {
         }
     }, [addLogBookEntrySuccess])
 
+    console.log(user)
 
   return (
     <div>

@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 import Input from '../components/Input';
 import TertiaryButton from '../components/TertiaryButton';
 import { validate } from '../utils/funcs';
@@ -9,6 +11,7 @@ import { register } from '../context/slices/auth.slice';
 
 export default function Register() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {
       registerSuccess,
       registerLoading,
@@ -30,6 +33,12 @@ export default function Register() {
         const bodyReq = formState
         dispatch(register(bodyReq))
     }
+
+    useEffect(()=> {
+        if (registerSuccess) {
+            navigate('/')
+        }
+    }, [registerSuccess])
 
   return (
     <div className='py-20 flex justify-center pt-40'>
@@ -75,6 +84,12 @@ export default function Register() {
         <div className='mt-8'>
             <TertiaryButton label={"Register"} onClick={handleRegister} />
         </div>
+        {registerError &&<div className='my-2'>
+            <p className='text-red-500 text-base'>{registerError}</p>
+        </div>}
+        {registerLoading &&<div className='my-2'>
+            <ClipLoader color="#36d7b7" size={25} loading={registerLoading} />
+        </div>}
         <div className='mt-4'>
             <p className='text-base'>Not a new user?</p>
             <NavLink

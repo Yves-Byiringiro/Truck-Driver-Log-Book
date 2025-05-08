@@ -6,6 +6,8 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: {
       user: {},
+      tokens: {},
+      isAuthenticated: false,
       loginSuccess: false,
       loginLoading: false,
       loginError: null,
@@ -24,19 +26,26 @@ export const authSlice = createSlice({
         state.loginError = null;
         state.loginSuccess = false;
         state.user = {};
+        state.tokens = {};
+        state.isAuthenticated = false;
       });
       builder.addCase(login.fulfilled, (state, action) => {
         state.loginLoading = false;
         state.loginError = null;
         state.loginSuccess = true;
-        state.user = action.payload;
+        state.user = action.payload.user;
+        state.tokens = action.payload.tokens;
+        state.isAuthenticated = true;
+        localStorage.setItem('accessToken', action.payload.tokens.access);
+        localStorage.setItem('refreshToken', action.payload.tokens.refresh);
       });
       builder.addCase(login.rejected, (state, action) => {
-        console.log("******************************", action.payload)
         state.loginLoading = false;
         state.loginError = action.payload;
         state.loginSuccess = false;
         state.user = {};
+        state.tokens = {};
+        state.isAuthenticated = false;
       })
 
       // register
@@ -75,14 +84,14 @@ export const login = createAsyncThunk("auth/login", async (bodyReq, thunkAPI) =>
 
 export const register = createAsyncThunk("auth/register", async (bodyReq, thunkAPI) => {
   try {
-    const response = await reqInstance.post(`/auth-register/`, bodyReq, {
+    const response = await reqInstance.post(`/auth/register/`, bodyReq, {
         headers: {
           'Content-Type': 'application/json'
         }
     });
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response);
+    return thunkAPI.rejectWithValue(error.response.data.error);
   }
 });
 

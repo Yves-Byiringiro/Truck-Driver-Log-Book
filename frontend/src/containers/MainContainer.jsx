@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import SideNav from "../components/SideNav"
 import { IoMdMenu } from "react-icons/io";
 
 
 export default function MainContainer({children}) {
+    const { user } = useSelector(state => state.auth);
+
     const [sideNavOpen, setSideNavOpen] = useState(false);
     const toggleSideNav = () => setSideNavOpen((prev) => !prev);
 
@@ -19,9 +22,9 @@ export default function MainContainer({children}) {
             }
             <div className="flex justify-end">
                 <div className=" bg-[#202124] px-3 py-1.5 inline-flex gap-4 rounded-lg cursor-pointer">
-                    <h3 className="text-white text-base font-light">7Y-56-783</h3>
+                    <h3 className="text-white text-base font-light">{user?.driver_number}</h3>
                     <div className="border border-[#D2FD51] rounded-full p-2 w-7 h-7 flex items-center justify-center">
-                        <span className="text-[#D2FD51] text-xs">YB</span>
+                        <span className="text-[#D2FD51] text-xs">{user?.driver_initials}</span>
                     </div>
                 </div>
             </div>
