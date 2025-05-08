@@ -2,7 +2,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from .serializers import LoginSerializer, UserInfoSerializer, RegisterSerializer
 from .utils import get_tokens_for_user
@@ -70,3 +70,21 @@ class RegisterView(APIView):
                 return Response({"error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AuthenticateView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        try:
+            user = request.user
+            user_info = UserInfoSerializer(user)
+            tokens = get_tokens_for_user(user)
+
+            return Response({
+                "tokens":tokens,
+                "user": user_info.data,
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
