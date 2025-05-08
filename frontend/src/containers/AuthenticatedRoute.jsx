@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 export default function AuthenticatedRoute (children) {
-    const {isAuthenticated }  = useSelector(state => state.auth);
+    const { isAuthenticated }  = useSelector(state => state.auth);
     const location = useLocation();
 
     if(!isAuthenticated){

@@ -13,6 +13,7 @@ export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {
+        isAuthenticated,
         loginSuccess,
         loginLoading,
         loginError
@@ -37,7 +38,13 @@ export default function Login() {
         if (loginSuccess) {
             navigate('/home')
         }
-    }, [loginSuccess])
+    }, [loginSuccess, navigate]);
+
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         navigate('/home');
+    //     }
+    // }, [isAuthenticated, navigate]);
 
   return (
     <div className='py-20 flex justify-center pt-40'>

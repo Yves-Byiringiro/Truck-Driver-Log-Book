@@ -76,10 +76,10 @@ export const authSlice = createSlice({
         state.authenticationIsLoading = true;
       });
       builder.addCase(authenticate.fulfilled, (state, action) => {
-        const { refresh, access, expires_at, id, ...rest } = action.payload;
-        state.user = rest;
+        state.user = action.payload.user;
         state.isAuthenticated = true;
         state.authenticationIsLoading = false;
+        state.tokens = action.payload.tokens;
       });
       builder.addCase(authenticate.rejected, (state) => {
         state.user = null;
@@ -119,7 +119,7 @@ export const register = createAsyncThunk("auth/register", async (bodyReq, thunkA
 
 export const authenticate = createAsyncThunk("auth/authenticate", async (_, thunkAPI) => {
     try {
-      const response = await reqInstance.get(`/user/auth/authenticate/`, {
+      const response = await reqInstance.get(`/auth/authenticate/`, {
         headers: {
           'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
           'Content-Type': 'application/json'
