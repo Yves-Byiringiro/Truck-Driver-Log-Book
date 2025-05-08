@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MainContainer from './../containers/MainContainer';
+import MainContainer from '../containers/MainContainer';
 import PageInfoSection from '../components/PageInfoSection';
 import Input from '../components/Input';
 import PrimaryButton from '../components/PrimaryButton';

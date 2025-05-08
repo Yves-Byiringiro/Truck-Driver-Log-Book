@@ -8,16 +8,21 @@ export const authSlice = createSlice({
       user: {},
       tokens: {},
       isAuthenticated: false,
+      authenticationIsLoading: true,
       loginSuccess: false,
       loginLoading: false,
       loginError: null,
 
       registerSuccess: false,
       registerLoading: false,
-      registerError: null
+      registerError: null,
+
     },
     reducers: {
-
+      resetAuthenticateState: (state) => {
+        state.authenticationIsLoading = false;
+        return state;
+      },
     },
     extraReducers: (builder) => {
       // login
@@ -36,8 +41,7 @@ export const authSlice = createSlice({
         state.user = action.payload.user;
         state.tokens = action.payload.tokens;
         state.isAuthenticated = true;
-        localStorage.setItem('accessToken', action.payload.tokens.access);
-        localStorage.setItem('refreshToken', action.payload.tokens.refresh);
+        localStorage.setItem('authTokens', JSON.stringify(action.payload.tokens));
       });
       builder.addCase(login.rejected, (state, action) => {
         state.loginLoading = false;
@@ -64,6 +68,24 @@ export const authSlice = createSlice({
         state.registerError = action.payload;
         state.registerSuccess = false;
       })
+
+      // authenticate
+      builder.addCase(authenticate.pending, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.authenticationIsLoading = true;
+      });
+      builder.addCase(authenticate.fulfilled, (state, action) => {
+        const { refresh, access, expires_at, id, ...rest } = action.payload;
+        state.user = rest;
+        state.isAuthenticated = true;
+        state.authenticationIsLoading = false;
+      });
+      builder.addCase(authenticate.rejected, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.authenticationIsLoading = false;
+      });
     }
 });
 
@@ -72,9 +94,9 @@ export const authSlice = createSlice({
 export const login = createAsyncThunk("auth/login", async (bodyReq, thunkAPI) => {
   try {
     const response = await reqInstance.post(`/auth/login/`, bodyReq, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
     return response.data;
   } catch (error) {
@@ -85,9 +107,9 @@ export const login = createAsyncThunk("auth/login", async (bodyReq, thunkAPI) =>
 export const register = createAsyncThunk("auth/register", async (bodyReq, thunkAPI) => {
   try {
     const response = await reqInstance.post(`/auth/register/`, bodyReq, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
     return response.data;
   } catch (error) {
@@ -95,3 +117,20 @@ export const register = createAsyncThunk("auth/register", async (bodyReq, thunkA
   }
 });
 
+export const authenticate = createAsyncThunk("auth/authenticate", async (_, thunkAPI) => {
+    try {
+      const response = await reqInstance.get(`/user/auth/authenticate/`, {
+        headers: {
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message)
+    }
+  }
+);
+
+
+export const { resetAuthenticateState } = authSlice.actions;

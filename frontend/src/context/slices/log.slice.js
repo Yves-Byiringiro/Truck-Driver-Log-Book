@@ -61,7 +61,7 @@ export const addLogBook = createAsyncThunk("log/addLogBook", async (bodyReq, thu
   try {
     const response = await reqInstance.post(`/log-book/`, bodyReq, {
         headers: {
-        //   'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
           'Content-Type': 'application/json'
         }
       });
@@ -75,7 +75,7 @@ export const addLogBookEntry = createAsyncThunk("log/addLogBookEntry", async (bo
   try {
     const response = await reqInstance.post(`/log-entry/`, bodyReq, {
         headers: {
-        //   'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,
           'Content-Type': 'application/json'
         }
       });

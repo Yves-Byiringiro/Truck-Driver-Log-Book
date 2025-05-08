@@ -34,4 +34,4 @@ class LogBookEntry(models.Model):
     remarks = models.TextField(blank=False, null=False)
 
     def __str__(self):
-        return f"{self.duty_status} - {self.start_time} ({self.logbook.driver_number})"
+        return f"{self.duty_status} - {self.start_time} ({self.log_book.driver_number})"
